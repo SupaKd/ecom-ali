@@ -1,0 +1,280 @@
+/* category-page.scss */
+
+.category-page {
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    min-height: 100vh;
+  margin: 0;
+  background: radial-gradient(
+    circle at center,
+    #ffffff 0%,
+    #f3efff 50%,
+    #e8e0ff 100%
+  );
+  background-attachment: fixed;
+  
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 3rem;
+      position: relative;
+      letter-spacing: -0.025em;
+  
+      // Petite barre décorative sous le titre
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -12px;
+        left: 0;
+        width: 60px;
+        height: 4px;
+        background: #6366f1;
+        border-radius: 2px;
+      }
+    }
+  
+    // Grille de produits optimisée
+    .products-grid {
+      display: grid;
+      // Crée des colonnes qui s'adaptent automatiquement (min 280px)
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+      animation: fadeInGrid 0.6s ease-out;
+    }
+  }
+  
+  /* Animation d'apparition fluide des produits */
+  @keyframes fadeInGrid {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsive ajustements */
+  @media (max-width: 768px) {
+    .category-page {
+      padding: 2rem 1rem;
+  
+      h1 {
+        font-size: 1.85rem;
+        margin-bottom: 2rem;
+      }
+  
+      .products-grid {
+        gap: 1.25rem;
+        // Sur très petits écrans, on peut passer à 150px min pour avoir 2 colonnes
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+    }
+  }
+
+  /* categories-list-page.scss */
+
+.categories-list-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+  
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 3.5rem;
+      text-align: center;
+      letter-spacing: -0.025em;
+    }
+  
+    // Configuration de la grille
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+  
+    // Design de la carte catégorie
+    .category-card {
+      background: #ffffff;
+      padding: 2.5rem 2rem;
+      border-radius: 24px;
+      border: 1px solid #f1f5f9;
+      text-decoration: none;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 200px;
+      position: relative;
+      overflow: hidden;
+  
+      &::after {
+        content: '→';
+        position: absolute;
+        right: 2rem;
+        bottom: 2rem;
+        font-size: 1.5rem;
+        color: #6366f1;
+        opacity: 0;
+        transform: translateX(-10px);
+        transition: all 0.3s ease;
+      }
+  
+      &:hover {
+        transform: translateY(-10px);
+        border-color: #6366f1;
+        box-shadow: 0 20px 25px -5px rgba(99, 102, 241, 0.1), 
+                    0 10px 10px -5px rgba(99, 102, 241, 0.04);
+  
+        &::after {
+          opacity: 1;
+          transform: translateX(0);
+        }
+  
+        h2 {
+          color: #6366f1;
+        }
+      }
+  
+      h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 0.75rem;
+        transition: color 0.3s ease;
+      }
+  
+      p {
+        font-size: 0.95rem;
+        color: #64748b;
+        line-height: 1.6;
+        margin: 0;
+        // Limite le texte à 3 lignes
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    }
+  }
+  
+  /* Version Tablette / Mobile */
+  @media (max-width: 768px) {
+    .categories-list-page {
+      padding: 2.5rem 1rem;
+  
+      h1 {
+        font-size: 1.85rem;
+        margin-bottom: 2rem;
+      }
+  
+      .categories-grid {
+        grid-template-columns: 1fr; // Une seule colonne sur mobile pour plus de lisibilité
+        gap: 1.25rem;
+      }
+  
+      .category-card {
+        min-height: auto;
+        padding: 2rem;
+      }
+    }
+  }
+
+  .category-card {
+    position: relative;
+    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 200px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  
+      .category-card-image {
+        transform: scale(1.05);
+      }
+  
+      .category-card-arrow {
+        transform: translateX(4px);
+      }
+    }
+  
+    .category-card-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.4;
+      transition: transform 0.3s ease;
+    }
+  
+    .category-card-content {
+      position: relative;
+      z-index: 1;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      min-height: 200px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 100%);
+  
+      h3 {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #ffffff;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+  
+      .category-card-arrow {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        color: #ffffff;
+        margin-top: 1rem;
+        transition: transform 0.2s ease;
+        backdrop-filter: blur(4px);
+      }
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .category-card {
+      min-height: 160px;
+  
+      .category-card-content {
+        padding: 1.5rem;
+        min-height: 160px;
+  
+        h3 {
+          font-size: 1.25rem;
+        }
+  
+        .category-card-arrow {
+          width: 36px;
+          height: 36px;
+          margin-top: 0.75rem;
+  
+          svg {
+            width: 18px;
+            height: 18px;
+          }
+        }
+      }
+    }
+  }

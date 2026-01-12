@@ -1,0 +1,94 @@
+/* --- Modern CSS Reset --- */
+
+/* 1. Box sizing global */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 2. Suppression des marges par défaut pour les éléments clés */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* 3. Suppression du style des listes (utile pour les menus de dashboard) */
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* 4. Configuration du body pour une hauteur complète et un rendu fluide */
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #f8fafc; // Un gris très léger pour le fond du dashboard
+  color: #1e293b;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 5. Comportement des liens par défaut */
+a {
+  text-decoration-skip-ink: auto;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 6. Rendre les images plus faciles à manipuler */
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+/* 7. Héritage des polices pour les formulaires et boutons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* 8. Suppression des animations pour les utilisateurs qui préfèrent la réduction de mouvement */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* 9. Suppression des bordures par défaut sur les boutons */
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* 10. Assurer que le conteneur principal occupe l'espace restant */
+#root {
+  display: flex;
+  flex-direction: column; /* Aligne les éléments verticalement */
+  min-height: 100vh;
+  width: 100%;
+}

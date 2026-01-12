@@ -1,0 +1,81 @@
+/* animations.scss - Animations réutilisables */
+
+// Animation de fondu entrant (fade in)
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Animation de glissement vers le haut (slide up)
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Animation de glissement vers le bas (slide down)
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Animation de fondu entrant avec glissement (fade in slide)
+@keyframes fadeInSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Animation de secousse (shake) - pour les erreurs
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+// Animation de rotation (spin) - pour les indicateurs de chargement
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

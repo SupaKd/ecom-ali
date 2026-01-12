@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self';
+                   script-src 'self' 'unsafe-inline' https://js.stripe.com;
+                   style-src 'self' 'unsafe-inline';
+                   img-src 'self' data: https: http://localhost:3001;
+                   connect-src 'self' http://localhost:3001 https://api.stripe.com;
+                   frame-src https://js.stripe.com https://hooks.stripe.com;
+                   font-src 'self';
+                   object-src 'none';
+                   base-uri 'self';
+                   form-action 'self';">
+
+    <!-- Security Headers (X-Frame-Options supprimé car non supporté en meta) -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <title>E-commerce - Boutique en ligne</title>
+    <meta name="description" content="Boutique e-commerce avec paiement sécurisé">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

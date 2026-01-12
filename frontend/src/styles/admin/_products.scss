@@ -1,0 +1,54 @@
+/* product-list.scss */
+
+.admin-page {
+    // Conteneur de la table des produits
+    .products-table {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      overflow: hidden;
+  
+      table {
+        width: 100%;
+        border-collapse: collapse;
+  
+        th {
+          padding: 1rem 1.5rem;
+          background: #f8fafc;
+          color: #64748b;
+          font-size: 0.75rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          border-bottom: 1px solid #e2e8f0;
+        }
+  
+        td {
+          padding: 1rem 1.5rem;
+          vertical-align: middle;
+          font-size: 0.9rem;
+          border-bottom: 1px solid #f1f5f9;
+        }
+  
+        // Miniature du produit
+        .product-thumbnail {
+          width: 48px;
+          height: 48px;
+          object-fit: cover;
+          border-radius: 8px;
+          background: #f1f5f9;
+          border: 1px solid #e2e8f0;
+        }
+  
+        // Gestion visuelle du stock
+        .stock-low {
+          color: #e11d48;
+          background: #fff1f2;
+          padding: 0.25rem 0.5rem;
+          border-radius: 6px;
+          font-weight: 700;
+          display: inline-block;
+        }
+  
+      }
+    }
+  }

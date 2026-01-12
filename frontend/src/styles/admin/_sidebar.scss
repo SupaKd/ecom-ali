@@ -1,0 +1,161 @@
+.admin-sidebar {
+  width: 280px;
+  height: 100vh;
+  background-color: #ffffff;
+  border-right: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.02);
+  position: sticky;
+  top: 0;
+
+  // Header : Infos de l'utilisateur
+  .sidebar-header {
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #f8f9fa;
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #1a1a1a;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.5px;
+    }
+
+    .sidebar-user {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #333;
+      margin: 0;
+    }
+
+    .sidebar-role {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #6366f1; // Bleu indigo moderne
+      background-color: #eef2ff;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      margin-top: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  // Navigation
+  .sidebar-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .sidebar-link {
+      text-decoration: none;
+      color: #64748b; // Gris ardoise
+      padding: 0.875rem 1rem;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: all 0.2s ease-in-out;
+
+      &:hover {
+        background-color: #f1f5f9;
+        color: #1e293b;
+        transform: translateX(4px);
+      }
+
+      // Optionnel : style pour le lien actif (si vous utilisez NavLink)
+      &.active {
+        background-color: #6366f1;
+        color: #ffffff;
+      }
+    }
+  }
+
+  // Bouton de déconnexion
+  .sidebar-logout {
+    margin-top: auto;
+    background-color: #fff1f2;
+    color: #e11d48; // Rouge moderne
+    border: none;
+    padding: 1rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background-color: #e11d48;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(225, 29, 72, 0.2);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}
+
+/* admin-layout.scss */
+
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f8fafc; // Gris très clair pour détacher le contenu du fond
+
+  // Style pour l'état de chargement
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #64748b;
+    background-color: #ffffff;
+  }
+
+  // Conteneur principal (à droite de la sidebar)
+  .admin-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    overflow-y: auto; // Permet de scroller uniquement le contenu
+    
+    // Pour une transition douce à l'affichage des pages
+    animation: fadeIn 0.3s ease-in-out;
+  }
+}
+
+// Animation subtile pour l'apparition du contenu (Outlet)
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Adaptabilité tablette/mobile (Stack vertical)
+@media (max-width: 768px) {
+  .admin-layout {
+    flex-direction: column;
+
+    .admin-main {
+      padding: 1rem;
+    }
+  }
+}

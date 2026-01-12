@@ -1,0 +1,326 @@
+/* cart-page.scss */
+
+.cart-page {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+  
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 2rem;
+      letter-spacing: -0.5px;
+    }
+  
+    .cart-content {
+      display: grid;
+      grid-template-columns: 1fr 380px; // Colonne principale + Sidebar
+      gap: 2.5rem;
+      align-items: flex-start;
+    }
+  
+    // Zone de la liste d'articles
+    .cart-items {
+      background: #ffffff;
+      border-radius: 20px;
+      border: 1px solid #f1f5f9;
+      overflow: hidden;
+    }
+  
+    // Sidebar de récapitulatif
+    .cart-summary {
+      background: #f8fafc;
+      padding: 2rem;
+      border-radius: 24px;
+      border: 1px solid #e2e8f0;
+      position: sticky;
+      top: 100px; // Reste visible au scroll (ajustez selon la hauteur de votre navbar)
+  
+      h2 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 1.5rem;
+      }
+  
+      .cart-summary-line {
+        display: flex;
+        justify-content: space-between;
+        color: #64748b;
+        margin-bottom: 1rem;
+        font-size: 0.95rem;
+      }
+  
+      .cart-summary-total {
+        display: flex;
+        justify-content: space-between;
+        border-top: 1px solid #e2e8f0;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: #0f172a;
+      }
+  
+      .checkout-button {
+        display: block;
+        text-align: center;
+        background: #6366f1;
+        color: white;
+        padding: 1.125rem;
+        border-radius: 14px;
+        font-weight: 700;
+        text-decoration: none;
+        margin-top: 2rem;
+        transition: all 0.2s ease;
+  
+        &:hover {
+          background: #4f46e5;
+          transform: translateY(-2px);
+          box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+        }
+      }
+  
+      .clear-cart-button {
+        width: 100%;
+        margin-top: 1rem;
+        color: #94a3b8;
+        font-size: 0.85rem;
+        text-decoration: underline;
+        cursor: pointer;
+        transition: color 0.2s;
+  
+        &:hover {
+          color: #ef4444;
+        }
+      }
+    }
+  }
+  
+  // État panier vide
+  .cart-page-empty {
+    text-align: center;
+    padding: 5rem 1rem;
+    
+    h1 {
+      font-size: 1.75rem;
+      color: #0f172a;
+      margin-bottom: 1.5rem;
+    }
+  
+    .continue-shopping {
+      display: inline-block;
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s;
+  
+      &:hover {
+        background: #e2e8f0;
+      }
+    }
+  }
+  
+  // Responsive mobile
+  @media (max-width: 968px) {
+    .cart-page {
+      .cart-content {
+        grid-template-columns: 1fr; // On passe sur une seule colonne
+      }
+      
+      .cart-summary {
+        position: static; // Plus de sticky sur mobile
+      }
+    }
+  }
+
+/* CartSidebar.scss */
+
+// 1. L'arrière-plan (Backdrop)
+.cart-sidebar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(15, 23, 42, 0.4); // Slate 900 avec transparence
+  backdrop-filter: blur(4px); // Effet de flou moderne
+  z-index: 2000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+// 2. Le Panier Coulissant
+.cart-sidebar {
+  position: fixed;
+  top: 0;
+  right: -100%; // Caché par défaut
+  width: 100%;
+  max-width: 400px; // Largeur idéale pour desktop
+  height: 100vh;
+  background-color: #ffffff;
+  z-index: 2001;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -10px 0 25px rgba(0, 0, 0, 0.1);
+  transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &.cart-sidebar-open {
+    right: 0; // Entre en scène
+  }
+
+  // Header fixe
+  .cart-sidebar-header {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f1f5f9;
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 0;
+    }
+
+    .cart-sidebar-close {
+      font-size: 1.5rem;
+      color: #94a3b8;
+      transition: color 0.2s;
+      &:hover { color: #0f172a; }
+    }
+  }
+
+  // Zone de contenu scrollable
+  .cart-sidebar-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    
+
+    &::-webkit-scrollbar { width: 5px; }
+    &::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+  }
+
+  // Items du panier
+  .cart-sidebar-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .cart-sidebar-item {
+    display: grid;
+    grid-template-columns: 70px 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    margin: 1rem;
+
+    .cart-sidebar-item-image {
+      width: 70px;
+      height: 70px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #f8fafc;
+      img { width: 100%; height: 100%; object-fit: cover; }
+    }
+
+    .cart-sidebar-item-details {
+      h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.25rem; }
+      .cart-sidebar-item-brand { font-size: 0.75rem; color: #64748b; text-transform: uppercase; }
+      .cart-sidebar-item-price { font-weight: 700; color: #6366f1; font-size: 0.9rem; }
+    }
+
+    // Sélecteur de quantité compact
+    .cart-sidebar-item-quantity {
+      display: flex;
+      align-items: center;
+      background: #f1f5f9;
+      border-radius: 6px;
+      margin-top: 0.5rem;
+      width: fit-content;
+
+      .quantity-btn {
+        padding: 2px 8px;
+        font-weight: bold;
+        &:disabled { color: #cbd5e1; }
+      }
+      .quantity-value { font-size: 0.85rem; font-weight: 700; padding: 0 4px; }
+    }
+
+    .cart-sidebar-item-remove {
+      font-size: 1.1rem;
+      opacity: 0.5;
+      transition: opacity 0.2s;
+      &:hover { opacity: 1; }
+    }
+  }
+
+  // Footer fixe avec total et boutons
+  .cart-sidebar-footer {
+    padding: 1.5rem;
+    border-top: 1px solid #f1f5f9;
+    background: #fafafa;
+    border-radius: 2rem;
+
+    .cart-sidebar-total {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 800;
+      font-size: 1.1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .btn-checkout {
+      display: block;
+      width: 100%;
+      background: #0f172a;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 12px;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      transition: transform 0.2s;
+      &:hover { transform: translateY(-2px); background: #1e293b; }
+    }
+
+    .btn-view-cart {
+      display: block;
+      width: 100%;
+      text-align: center;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #64748b;
+      &:hover { color: #6366f1; }
+    }
+  }
+
+  // État vide
+  .cart-sidebar-empty {
+    text-align: center;
+    padding: 4rem 0;
+    p { color: #94a3b8; margin-bottom: 1.5rem; }
+    .btn-continue-shopping {
+      color: #6366f1;
+      font-weight: 700;
+      text-decoration: underline;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+// Mobile
+@media (max-width: 480px) {
+  .cart-sidebar {
+    max-width: 100%;
+  }
+}

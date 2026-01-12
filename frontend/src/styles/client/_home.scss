@@ -1,0 +1,355 @@
+/* home.scss */
+
+.home {
+  min-height: 100vh;
+  margin: 0;
+  background: radial-gradient(
+    circle at center,
+    #ffffff 0%,
+    #f3efff 50%,
+    #e8e0ff 100%
+  );
+  background-attachment: fixed;
+  // --- 1. Hero Slider Section ---
+  .hero-slider {
+    position: relative;
+    height: 600px;
+    width: 100%;
+    overflow: hidden;
+    background-color: #0f172a;
+
+    .slides-container {
+      display: flex;
+      height: 100%;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); // Transition fluide
+      will-change: transform;
+    }
+
+    .slide {
+      min-width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+
+      .slide-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.2),
+          rgba(0, 0, 0, 0.6)
+        );
+      }
+
+      .slide-content {
+        position: relative;
+        z-index: 10;
+        color: white;
+        padding: 0 1.5rem;
+        max-width: 800px;
+
+        h1 {
+          font-size: 4rem;
+          font-weight: 900;
+          margin-bottom: 1.5rem;
+          letter-spacing: -0.02em;
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        p {
+          font-size: 1.5rem;
+          margin-bottom: 2.5rem;
+          opacity: 0.9;
+        }
+
+        .cta-button {
+          background-color: #6366f1;
+          color: white;
+          padding: 1rem 2.5rem;
+          border-radius: 50px;
+          font-size: 1.1rem;
+          font-weight: 700;
+          border: none;
+          cursor: pointer;
+          transition: all 0.3s ease;
+
+          &:hover {
+            background-color: #4f46e5;
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.4);
+          }
+        }
+      }
+    }
+
+    // Points indicateurs
+    .slider-dots {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 20;
+
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        transition: all 0.3s;
+
+        &.active {
+          background: #ffffff;
+          width: 30px; // Effet "pill" pour le point actif
+          border-radius: 10px;
+        }
+      }
+    }
+  }
+
+  // --- 2. Sections Contenu ---
+  .categories-section,
+  .products-section {
+    max-width: 1200px;
+    margin: 0rem auto;
+    padding: 2rem;
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 2.5rem;
+      position: relative;
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -10px;
+        width: 60px;
+        height: 4px;
+        background: #6366f1;
+        border-radius: 2px;
+      }
+    }
+  }
+
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+
+  // --- 3. Products Slider Section ---
+  .products-section {
+    position: relative;
+
+    .products-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .products-slider {
+      display: flex;
+      gap: 2rem;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-behavior: smooth;
+      padding-bottom: 1rem;
+      scrollbar-width: thin;
+      scrollbar-color: #6366f1 #e5e7eb;
+
+      // Custom scrollbar for webkit browsers
+      &::-webkit-scrollbar {
+        height: 8px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: #e5e7eb;
+        border-radius: 10px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #6366f1;
+        border-radius: 10px;
+
+        &:hover {
+          background: #4f46e5;
+        }
+      }
+
+      // Product cards in slider
+      > * {
+        flex: 0 0 320px;
+        min-width: 320px;
+      }
+    }
+    .products-nav-buttons {
+      display: flex;
+      justify-content: center; 
+      align-items: center; 
+      gap: 1rem; 
+      width: 100%; 
+      margin: 2rem 0; 
+
+      .products-nav-btn {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: 2px solid #6366f1;
+        background: white;
+        color: #6366f1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(99, 102, 241, 0.15);
+
+        &:hover {
+          background: #6366f1;
+          color: white;
+          transform: scale(1.05);
+          box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+      }
+    }
+  }
+}
+
+/* --- Responsive Mobile Optimisé --- */
+@media (max-width: 768px) {
+  .home {
+    .hero-slider {
+      height: 450px; // Hauteur fixe pour garder un bon ratio sur smartphone
+
+      .slide {
+        // Renforcer l'overlay sur mobile pour la lisibilité
+        .slide-overlay {
+          background: rgba(0, 0, 0, 0.45);
+        }
+
+        .slide-content {
+          padding: 0 1.25rem;
+          width: 100%;
+
+          h1 {
+            font-size: 2.25rem; // Réduction pour éviter que le titre ne prenne trop de place
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            // Animation fluide pour l'apparition du texte
+            animation: fadeInUp 0.5s ease forwards;
+          }
+
+          p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; // Limite à 2 lignes si le texte est trop long
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+          }
+
+          .cta-button {
+            display: inline-block; // Important car c'est un composant Link maintenant
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            width: auto;
+            min-width: 160px;
+          }
+        }
+      }
+
+      // On cache les flèches sur mobile (le swipe est préféré)
+      .slider-btn {
+        display: none;
+      }
+
+      // Optimisation des dots pour le tactile
+      .slider-dots {
+        bottom: 20px;
+        .dot {
+          width: 8px;
+          height: 8px;
+          &.active {
+            width: 24px;
+          }
+        }
+      }
+    }
+
+    // Grilles de catégories en 2 colonnes
+    .categories-grid {
+      grid-template-columns: repeat(2, 1fr); // Force 2 colonnes
+      gap: 1rem;
+      padding: 0;
+    }
+
+    .categories-section,
+    .products-section {
+      margin: 3rem auto;
+      padding: 1rem;
+
+      h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+    }
+
+    // Products slider responsive
+    .products-section {
+      .products-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+
+        .products-nav-buttons {
+          align-self: flex-end;
+
+          .products-nav-btn {
+            width: 40px;
+            height: 40px;
+          }
+        }
+      }
+
+      .products-slider {
+        gap: 1rem;
+
+        > * {
+          flex: 0 0 280px;
+          min-width: 280px;
+        }
+      }
+    }
+  }
+}
+
+// Animation pour faire apparaître le texte proprement
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

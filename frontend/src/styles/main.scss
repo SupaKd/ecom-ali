@@ -1,0 +1,19 @@
+@import 'reset';
+@import 'admin/animations';
+@import 'admin/common';
+@import 'admin/sidebar';
+@import 'admin/orders';
+@import 'admin/products';
+@import 'admin/stock';
+@import 'admin/login';
+@import 'admin/categories';
+
+//============CLIENT============//
+@import 'client/navbar';
+@import 'client/components';
+@import 'client/cart';
+@import 'client/checkout';
+@import 'client/category';
+@import 'client/product';
+@import 'client/home';
+@import 'client/footer';

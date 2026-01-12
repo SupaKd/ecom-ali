@@ -1,0 +1,228 @@
+/* stock-management.scss */
+
+.admin-page {
+    // Section des statistiques (KPIs)
+    .stock-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+  
+      .stat-card {
+        background: #ffffff;
+        padding: 1.5rem;
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+        
+        h3 {
+          font-size: 0.875rem;
+          color: #64748b;
+          margin-bottom: 0.5rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.025em;
+        }
+  
+        .stat-number {
+          font-size: 1.5rem;
+          font-weight: 800;
+          color: #0f172a;
+        }
+  
+        &.warning {
+          border-left: 4px solid #f59e0b; // Orange
+          .stat-number { color: #b45309; }
+        }
+  
+        &.danger {
+          border-left: 4px solid #ef4444; // Rouge
+          .stat-number { color: #b91c1c; }
+        }
+      }
+    }
+  
+    // Table de gestion du stock
+    .stock-table {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      overflow: hidden;
+  
+      table {
+        width: 100%;
+        border-collapse: collapse;
+  
+        th {
+          padding: 1rem 1.5rem;
+          background: #f8fafc;
+          color: #64748b;
+          font-size: 0.75rem;
+          font-weight: 600;
+          text-align: left;
+          border-bottom: 1px solid #e2e8f0;
+        }
+  
+        td {
+          padding: 1rem 1.5rem;
+          border-bottom: 1px solid #f1f5f9;
+          font-size: 0.9rem;
+          vertical-align: middle;
+  
+          .product-thumbnail {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            object-fit: cover;
+          }
+  
+          // États visuels du stock
+          .stock-low {
+            color: #d97706;
+            font-weight: 700;
+            background: #fffbeb;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+          }
+  
+          .stock-out {
+            color: #dc2626;
+            font-weight: 700;
+            background: #fef2f2;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+          }
+  
+          // Input d'édition rapide (Inline edit)
+          .stock-input {
+            width: 80px;
+            padding: 0.4rem;
+            border: 2px solid #6366f1;
+            border-radius: 6px;
+            font-weight: 600;
+            text-align: center;
+            outline: none;
+          }
+        }
+      }
+    }
+  }
+
+  /* stock-management-filters.scss */
+
+.admin-search-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding: 1.25rem;
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+  
+    // Boîte de recherche
+    .search-box {
+      flex: 1;
+      min-width: 250px;
+  
+      .search-input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        border: 1px solid #cbd5e1;
+        font-size: 0.9rem;
+        transition: all 0.2s;
+  
+        &:focus {
+          outline: none;
+          border-color: #6366f1;
+          box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+      }
+    }
+  
+    // Groupe des sélecteurs
+    .filter-selects {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+  
+      .filter-select {
+        padding: 0.75rem 2rem 0.75rem 1rem;
+        border-radius: 8px;
+        border: 1px solid #cbd5e1;
+        background-color: #ffffff;
+        font-size: 0.875rem;
+        color: #334155;
+        cursor: pointer;
+        min-width: 180px;
+        // Flèche personnalisée pour le select
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 0.7rem center;
+        background-size: 1em;
+  
+        &:focus {
+          border-color: #6366f1;
+          outline: none;
+        }
+      }
+  
+      // Bouton réinitialiser
+      .btn-reset-filters {
+        padding: 0.5rem 1rem;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: #e11d48;
+        background: #fff1f2;
+        border: 1px solid #fecdd3;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+  
+        &:hover {
+          background: #e11d48;
+          color: #ffffff;
+        }
+      }
+    }
+  }
+  
+  // Information sur les résultats (ex: "12 produits trouvés")
+  .filter-results-info {
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+  
+    &::before {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background-color: #6366f1;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+    }
+  }
+  
+  // Adaptabilité pour mobiles
+  @media (max-width: 768px) {
+    .admin-search-filters {
+      flex-direction: column;
+      align-items: stretch;
+      
+      .filter-selects {
+        flex-direction: column;
+        
+        .filter-select {
+          width: 100%;
+        }
+      }
+    }
+  }

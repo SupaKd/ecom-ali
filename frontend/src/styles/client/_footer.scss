@@ -1,0 +1,169 @@
+/* footer.scss */
+
+.footer {
+    background-color: #0f172a; // Slate 900
+    color: #94a3b8; // Slate 400 pour le texte secondaire
+    padding: 5rem 0 0rem 0;
+  
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+  
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 3rem;
+      margin-bottom: 4rem;
+    }
+  
+    .footer-section {
+      h3 {
+        color: #ffffff;
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        position: relative;
+        
+        &::after {
+          content: "";
+          display: block;
+          width: 30px;
+          height: 2px;
+          background-color: #6366f1;
+          margin-top: 0.5rem;
+        }
+      }
+  
+      p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+      }
+  
+      ul {
+        list-style: none;
+        padding: 0;
+        
+        li {
+          margin-bottom: 0.75rem;
+          
+          a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+  
+            &:hover {
+              color: #ffffff;
+              padding-left: 5px; // Petit effet de décalage au survol
+            }
+          }
+        }
+      }
+  
+      // Réseaux sociaux
+      .footer-social {
+        display: flex;
+        gap: 1rem;
+        
+        a {
+          width: 36px;
+          height: 36px;
+          background-color: rgba(255, 255, 255, 0.05);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 8px;
+          color: #ffffff;
+          transition: all 0.3s;
+  
+          &:hover {
+            background-color: #6366f1;
+            transform: translateY(-3px);
+          }
+        }
+      }
+  
+      // Formulaire Newsletter
+      .newsletter-form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+  
+        input {
+          background-color: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          padding: 0.8rem 1rem;
+          border-radius: 8px;
+          color: white;
+          font-size: 0.9rem;
+  
+          &:focus {
+            outline: none;
+            border-color: #6366f1;
+          }
+        }
+  
+        button {
+          background-color: #6366f1;
+          color: white;
+          border: none;
+          padding: 0.8rem;
+          border-radius: 8px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: background 0.2s;
+  
+          &:hover {
+            background-color: #4f46e5;
+          }
+        }
+      }
+  
+      .footer-payment {
+        margin-top: 1.5rem;
+        img {
+          max-width: 180px;
+          filter: grayscale(1) invert(1) opacity(0.7); // Intégration subtile
+        }
+      }
+    }
+  
+    // Barre finale
+    .footer-bottom {
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+  
+      p { margin: 0; }
+    }
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .footer {
+      padding: 3rem 0 1.5rem 0;
+      
+      .footer-content {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+  
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+      }
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .footer .footer-content {
+      grid-template-columns: 1fr;
+    }
+  }
