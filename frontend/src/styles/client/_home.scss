@@ -13,7 +13,7 @@
   // --- 1. Hero Slider Section ---
   .hero-slider {
     position: relative;
-    height: 600px;
+    height: 100vh;
     width: 100%;
     overflow: hidden;
     background-color: #0f172a;
@@ -149,6 +149,60 @@
     gap: 2rem;
   }
 
+  // --- Section Produits de Catégorie ---
+  .category-products-section {
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #F9FAFC;
+    animation: slideIn 0.3s ease-out;
+
+    .category-products-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+
+      h2 {
+        margin-bottom: 0;
+
+        &::after {
+          display: none;
+        }
+      }
+
+      .close-category-btn {
+        padding: 0.5rem 1.5rem;
+        background-color: #ef4444;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background-color: #dc2626;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+        }
+      }
+    }
+
+    .category-products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .no-products {
+      text-align: center;
+      color: #64748b;
+      font-size: 1.1rem;
+      padding: 3rem;
+      grid-column: 1 / -1;
+    }
+  }
+
   // --- 3. Products Slider Section ---
   .products-section {
     position: relative;
@@ -202,32 +256,6 @@
       gap: 1rem; 
       width: 100%; 
       margin: 2rem 0; 
-
-      .products-nav-btn {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        border: 2px solid #6366f1;
-        background: white;
-        color: #6366f1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 8px rgba(99, 102, 241, 0.15);
-
-        &:hover {
-          background: #6366f1;
-          color: white;
-          transform: scale(1.05);
-          box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-        }
-
-        &:active {
-          transform: scale(0.95);
-        }
-      }
     }
   }
 }
@@ -339,6 +367,34 @@
         }
       }
     }
+
+    // Category products section responsive
+    .category-products-section {
+      margin: 1.5rem auto;
+      padding: 1.5rem 1rem;
+
+      .category-products-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+
+        .close-category-btn {
+          align-self: flex-end;
+          padding: 0.4rem 1.2rem;
+          font-size: 0.9rem;
+        }
+      }
+
+      .category-products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+
+      .no-products {
+        font-size: 1rem;
+        padding: 2rem 1rem;
+      }
+    }
   }
 }
 
@@ -347,6 +403,18 @@
   from {
     opacity: 0;
     transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Animation pour la section des produits de catégorie
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
   }
   to {
     opacity: 1;

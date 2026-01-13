@@ -3,11 +3,17 @@ import { ArrowRight } from 'lucide-react';
 
 const API_URL = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:3001';
 
-export default function CategoryCard({ id, name, slug, image_url }) {
+export default function CategoryCard({ id, name, slug, image_url, onClick }) {
   const cleanImageUrl = image_url?.trim();
 
+  // Si onClick est fourni, utiliser un div cliquable, sinon utiliser Link
+  const CardWrapper = onClick ? 'div' : Link;
+  const cardProps = onClick
+    ? { onClick, className: "category-card", style: { cursor: 'pointer' } }
+    : { to: `/category/${slug}`, className: "category-card" };
+
   return (
-    <Link to={`/category/${slug}`} className="category-card">
+    <CardWrapper {...cardProps}>
       {cleanImageUrl && (
         <img
           src={`${API_URL}${cleanImageUrl}`}
@@ -21,6 +27,6 @@ export default function CategoryCard({ id, name, slug, image_url }) {
           <ArrowRight size={20} />
         </span>
       </div>
-    </Link>
+    </CardWrapper>
   );
 }
