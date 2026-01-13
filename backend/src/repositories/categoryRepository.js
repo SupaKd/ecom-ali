@@ -24,24 +24,57 @@ export async function findCategoryBySlug(slug) {
 }
 
 export async function createCategory(data) {
-  const [result] = await pool.query(
-    'INSERT INTO categories (name, slug, image_url, display_order) VALUES (?, ?, ?, ?)',
-    [data.name, data.slug, data.image_url || null, data.display_order || 0]
-  );
-  return result.insertId;
+  try {
+    const [result] = await pool.query(
+      'INSERT INTO categories (name, slug, image_url, display_order) VALUES (?, ?, ?, ?)',
+      [data.name, data.slug, data.image_url || null, data.display_order || 0]
+    );
+    return result.insertId;
+  } catch (error) {
+    if (error.code === 'ER_DUP_ENTRY') {
+      const err = new Error();
+      err.status = 400;
+      if (error.message.includes('name')) {
+        err.message = 'Une catégorie avec ce nom existe déjà';
+      } else if (error.message.includes('slug')) {
+        err.message = 'Une catégorie avec ce slug existe déjà';
+      } else {
+        err.message = 'Cette catégorie existe déjà';
+      }
+      throw err;
+    }
+    throw error;
+  }
 }
 
 export async function updateCategory(id, data) {
-  const [result] = await pool.query(
-    'UPDATE categories SET name = ?, slug = ?, image_url = ?, display_order = ? WHERE id = ?',
-    [data.name, data.slug, data.image_url, data.display_order, id]
-  );
-  return result.affectedRows > 0;
+  try {
+    const [result] = await pool.query(
+      'UPDATE categories SET name = ?, slug = ?, image_url = ?, display_order = ? WHERE id = ?',
+      [data.name, data.slug, data.image_url, data.display_order, id]
+    );
+    return result.affectedRows > 0;
+  } catch (error) {
+    if (error.code === 'ER_DUP_ENTRY') {
+      const err = new Error();
+      err.status = 400;
+      if (error.message.includes('name')) {
+        err.message = 'Une catégorie avec ce nom existe déjà';
+      } else if (error.message.includes('slug')) {
+        err.message = 'Une catégorie avec ce slug existe déjà';
+      } else {
+        err.message = 'Cette catégorie existe déjà';
+      }
+      throw err;
+    }
+    throw error;
+  }
 }
 
 export async function deleteCategory(id) {
+  // Suppression définitive de la base de données
   const [result] = await pool.query(
-    'UPDATE categories SET is_active = FALSE WHERE id = ?',
+    'DELETE FROM categories WHERE id = ?',
     [id]
   );
   return result.affectedRows > 0;

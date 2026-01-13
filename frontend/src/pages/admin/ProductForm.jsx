@@ -4,11 +4,13 @@ import { fetchProductById } from '../../services/productService';
 import { fetchCategories } from '../../services/categoryService';
 import { fetchBrands } from '../../services/brandService';
 import { createProduct, updateProduct } from '../../services/adminService';
+import { useToast } from '../../contexts/ToastContext';
 
 export default function ProductForm() {
   const { id } = useParams();
   const navigate = useNavigate();
   const isEditing = !!id;
+  const toast = useToast();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -100,10 +102,10 @@ export default function ProductForm() {
 
       if (isEditing) {
         await updateProduct(id, data);
-        alert('Produit modifié');
+        toast.success('Produit modifié');
       } else {
         await createProduct(data);
-        alert('Produit créé');
+        toast.success('Produit créé');
       }
 
       navigate('/admin/products');

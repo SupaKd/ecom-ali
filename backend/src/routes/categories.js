@@ -2,6 +2,7 @@ import express from 'express';
 import * as categoryController from '../controllers/categoryController.js';
 import { authenticateToken } from '../middleware/auth.js';
 import { checkRole } from '../middleware/roleCheck.js';
+import { upload } from '../middleware/upload.js';
 
 const router = express.Router();
 
@@ -13,6 +14,7 @@ router.post(
   '/',
   authenticateToken,
   checkRole('product_manager'),
+  upload.single('image'),
   categoryController.createCategory
 );
 
@@ -20,6 +22,7 @@ router.put(
   '/:id',
   authenticateToken,
   checkRole('product_manager'),
+  upload.single('image'),
   categoryController.updateCategory
 );
 

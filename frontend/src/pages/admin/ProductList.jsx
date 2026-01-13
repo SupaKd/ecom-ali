@@ -3,12 +3,16 @@ import { Link } from 'react-router-dom';
 import { fetchProducts } from '../../services/productService';
 import { deleteProduct } from '../../services/adminService';
 import { formatPrice } from '../../utils/formatPrice';
+import { useToast } from '../../contexts/ToastContext';
+import { useConfirm } from '../../contexts/ConfirmContext';
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState('all');
+  const toast = useToast();
+  const confirm = useConfirm();
 
   useEffect(() => {
     loadProducts();
@@ -29,16 +33,24 @@ export default function ProductList() {
   }
 
   async function handleDelete(id, name) {
-    if (!confirm(`Supprimer le produit "${name}" ?`)) {
+    const confirmed = await confirm({
+      title: 'Supprimer le produit',
+      message: `Êtes-vous sûr de vouloir supprimer "${name}" ? Cette action est irréversible.`,
+      confirmText: 'Supprimer',
+      cancelText: 'Annuler',
+      confirmVariant: 'danger'
+    });
+
+    if (!confirmed) {
       return;
     }
 
     try {
       await deleteProduct(id);
       setProducts(products.filter(p => p.id !== id));
-      alert('Produit supprimé');
+      toast.success('Produit supprimé');
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   }
 

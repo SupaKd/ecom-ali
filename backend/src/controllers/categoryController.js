@@ -29,7 +29,11 @@ export async function getCategoryBySlug(req, res, next) {
 
 export async function createCategory(req, res, next) {
   try {
-    const category = await categoryService.addCategory(req.body);
+    const data = {
+      ...req.body,
+      image: req.file
+    };
+    const category = await categoryService.addCategory(data);
     res.status(201).json(category);
   } catch (error) {
     next(error);
@@ -38,7 +42,11 @@ export async function createCategory(req, res, next) {
 
 export async function updateCategory(req, res, next) {
   try {
-    const category = await categoryService.modifyCategory(req.params.id, req.body);
+    const data = {
+      ...req.body,
+      image: req.file
+    };
+    const category = await categoryService.modifyCategory(req.params.id, data);
     res.json(category);
   } catch (error) {
     next(error);

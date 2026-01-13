@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { fetchCategories } from '../../services/categoryService';
 import { createCategory, updateCategory, deleteCategory } from '../../services/adminService';
+import { useToast } from '../../contexts/ToastContext';
+import { useConfirm } from '../../contexts/ConfirmContext';
 
 export default function CategoryManagement() {
   const [categories, setCategories] = useState([]);
@@ -13,6 +15,9 @@ export default function CategoryManagement() {
     slug: '',
     display_order: 0
   });
+  const [image, setImage] = useState(null);
+  const toast = useToast();
+  const confirm = useConfirm();
 
   useEffect(() => {
     loadCategories();
@@ -47,22 +52,35 @@ export default function CategoryManagement() {
     }
   }
 
+  function handleImageChange(e) {
+    setImage(e.target.files[0]);
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
 
     try {
+      const data = new FormData();
+      data.append('name', formData.name);
+      data.append('slug', formData.slug);
+      data.append('display_order', formData.display_order);
+
+      if (image) {
+        data.append('image', image);
+      }
+
       if (editingId) {
-        await updateCategory(editingId, formData);
-        alert('Catégorie modifiée');
+        await updateCategory(editingId, data);
+        toast.success('Catégorie modifiée');
       } else {
-        await createCategory(formData);
-        alert('Catégorie créée');
+        await createCategory(data);
+        toast.success('Catégorie créée');
       }
 
       resetForm();
       loadCategories();
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   }
 
@@ -77,21 +95,30 @@ export default function CategoryManagement() {
   }
 
   async function handleDelete(id, name) {
-    if (!confirm(`Supprimer la catégorie "${name}" ?`)) {
+    const confirmed = await confirm({
+      title: 'Supprimer la catégorie',
+      message: `Êtes-vous sûr de vouloir supprimer "${name}" ? Cette action est irréversible.`,
+      confirmText: 'Supprimer',
+      cancelText: 'Annuler',
+      confirmVariant: 'danger'
+    });
+
+    if (!confirmed) {
       return;
     }
 
     try {
       await deleteCategory(id);
       setCategories(categories.filter(c => c.id !== id));
-      alert('Catégorie supprimée');
+      toast.success('Catégorie supprimée');
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   }
 
   function resetForm() {
     setFormData({ name: '', slug: '', display_order: 0 });
+    setImage(null);
     setEditingId(null);
     setShowForm(false);
   }
@@ -153,6 +180,18 @@ export default function CategoryManagement() {
             />
           </div>
 
+          <div className="form-group">
+            <label htmlFor="image">
+              Image {editingId ? "(laisser vide pour conserver l'actuelle)" : ''}
+            </label>
+            <input
+              type="file"
+              id="image"
+              accept="image/jpeg,image/png,image/webp"
+              onChange={handleImageChange}
+            />
+          </div>
+
           <div className="form-actions">
             <button type="submit" className="btn-primary">
               {editingId ? 'Modifier' : 'Créer'}
@@ -168,6 +207,7 @@ export default function CategoryManagement() {
         <table>
           <thead>
             <tr>
+              <th>Image</th>
               <th>Nom</th>
               <th>Slug</th>
               <th>Ordre</th>
@@ -177,6 +217,15 @@ export default function CategoryManagement() {
           <tbody>
             {categories.map(category => (
               <tr key={category.id}>
+                <td>
+                  {category.image_url && (
+                    <img
+                      src={`http://localhost:3001${category.image_url}`}
+                      alt={category.name}
+                      className="product-thumbnail"
+                    />
+                  )}
+                </td>
                 <td>{category.name}</td>
                 <td>{category.slug}</td>
                 <td>{category.display_order}</td>

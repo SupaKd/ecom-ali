@@ -2,10 +2,14 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchOrderById, updateOrderStatus } from '../../services/adminService';
 import { formatPrice } from '../../utils/formatPrice';
+import { useToast } from '../../contexts/ToastContext';
+import { useConfirm } from '../../contexts/ConfirmContext';
 
 export default function OrderDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const toast = useToast();
+  const confirm = useConfirm();
 
   const [order, setOrder] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -31,7 +35,22 @@ export default function OrderDetail() {
   }
 
   async function handleStatusChange(newStatus) {
-    if (!confirm(`Changer le statut en "${newStatus}" ?`)) {
+    const statusLabels = {
+      processing: 'en cours',
+      shipped: 'expédiée',
+      delivered: 'livrée',
+      cancelled: 'annulée'
+    };
+
+    const confirmed = await confirm({
+      title: 'Changer le statut de la commande',
+      message: `Êtes-vous sûr de vouloir changer le statut en "${statusLabels[newStatus]}" ?`,
+      confirmText: 'Confirmer',
+      cancelText: 'Annuler',
+      confirmVariant: newStatus === 'cancelled' ? 'danger' : 'warning'
+    });
+
+    if (!confirmed) {
       return;
     }
 
@@ -40,9 +59,9 @@ export default function OrderDetail() {
     try {
       const updatedOrder = await updateOrderStatus(id, newStatus);
       setOrder(updatedOrder);
-      alert('Statut mis à jour');
+      toast.success('Statut mis à jour');
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     } finally {
       setIsUpdating(false);
     }

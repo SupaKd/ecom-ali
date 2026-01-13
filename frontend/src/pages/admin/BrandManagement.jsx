@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { fetchBrands } from '../../services/brandService';
 import { createBrand, updateBrand, deleteBrand } from '../../services/adminService';
+import { useToast } from '../../contexts/ToastContext';
+import { useConfirm } from '../../contexts/ConfirmContext';
 
 export default function BrandManagement() {
   const [brands, setBrands] = useState([]);
@@ -13,6 +15,8 @@ export default function BrandManagement() {
     slug: '',
     description: ''
   });
+  const toast = useToast();
+  const confirm = useConfirm();
 
   useEffect(() => {
     loadBrands();
@@ -53,16 +57,16 @@ export default function BrandManagement() {
     try {
       if (editingId) {
         await updateBrand(editingId, formData);
-        alert('Marque modifiée');
+        toast.success('Marque modifiée');
       } else {
         await createBrand(formData);
-        alert('Marque créée');
+        toast.success('Marque créée');
       }
 
       resetForm();
       loadBrands();
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   }
 
@@ -77,16 +81,24 @@ export default function BrandManagement() {
   }
 
   async function handleDelete(id, name) {
-    if (!confirm(`Supprimer la marque "${name}" ?`)) {
+    const confirmed = await confirm({
+      title: 'Supprimer la marque',
+      message: `Êtes-vous sûr de vouloir supprimer "${name}" ? Cette action est irréversible.`,
+      confirmText: 'Supprimer',
+      cancelText: 'Annuler',
+      confirmVariant: 'danger'
+    });
+
+    if (!confirmed) {
       return;
     }
 
     try {
       await deleteBrand(id);
       setBrands(brands.filter(b => b.id !== id));
-      alert('Marque supprimée');
+      toast.success('Marque supprimée');
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   }
 

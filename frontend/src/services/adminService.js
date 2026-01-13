@@ -70,21 +70,29 @@ export async function deleteProduct(id) {
   }
 }
 
-export async function createCategory(data) {
+export async function createCategory(formData) {
   try {
-    const response = await api.post('/categories', data);
+    const response = await api.post('/categories', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
     return response.data;
   } catch (error) {
-    throw new Error('Erreur lors de la création de la catégorie');
+    throw error;
   }
 }
 
-export async function updateCategory(id, data) {
+export async function updateCategory(id, formData) {
   try {
-    const response = await api.put(`/categories/${id}`, data);
+    const response = await api.put(`/categories/${id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
     return response.data;
   } catch (error) {
-    throw new Error('Erreur lors de la modification de la catégorie');
+    throw error;
   }
 }
 

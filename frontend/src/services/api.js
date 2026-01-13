@@ -59,10 +59,13 @@ api.interceptors.response.use(
     // Erreur serveur
     if (status >= 500) {
       console.error('Erreur serveur:', error.response.data);
-      return Promise.reject(new Error('Erreur serveur, veuillez réessayer'));
+      const message = error.response.data?.error || error.response.data?.message || 'Erreur serveur, veuillez réessayer';
+      return Promise.reject(new Error(message));
     }
 
-    return Promise.reject(error);
+    // Autres erreurs (4xx)
+    const message = error.response.data?.error || error.response.data?.message || error.message;
+    return Promise.reject(new Error(message));
   }
 );
 

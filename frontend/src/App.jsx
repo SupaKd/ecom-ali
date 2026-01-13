@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 import { useState } from 'react';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
+import { ToastProvider } from './contexts/ToastContext';
+import { ConfirmProvider } from './contexts/ConfirmContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CartSidebar from './components/CartSidebar';
@@ -32,9 +34,11 @@ function App() {
   return (
     <AuthProvider>
       <CartProvider>
-        <BrowserRouter>
-          <ScrollToTop />
-          <Routes>
+        <ToastProvider>
+          <ConfirmProvider>
+            <BrowserRouter>
+              <ScrollToTop />
+              <Routes>
             {/* Routes publiques avec Navbar et Footer */}
             <Route path="/" element={<PublicLayout />}>
               <Route index element={<Home />} />
@@ -132,6 +136,8 @@ function App() {
             </Route>
           </Routes>
         </BrowserRouter>
+        </ConfirmProvider>
+        </ToastProvider>
       </CartProvider>
     </AuthProvider>
   );
