@@ -1,27 +1,33 @@
-/* home.scss */
+/* home.scss - Modern Design */
 
 .home {
   min-height: 100vh;
   margin: 0;
-  background: radial-gradient(
-    circle at center,
-    #ffffff 0%,
-    #f3efff 50%,
-    #e8e0ff 100%
-  );
   background-attachment: fixed;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    
+    pointer-events: none;
+  }
   // --- 1. Hero Slider Section ---
   .hero-slider {
     position: relative;
     height: 100vh;
     width: 100%;
     overflow: hidden;
-    background-color: #0f172a;
+    border-radius: 0rem 0rem 3rem 3rem;
 
     .slides-container {
       display: flex;
       height: 100%;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); // Transition fluide
+      transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
       will-change: transform;
     }
 
@@ -39,370 +45,474 @@
       .slide-overlay {
         position: absolute;
         inset: 0;
-        background: linear-gradient(
-          to bottom,
-          rgba(0, 0, 0, 0.2),
-          rgba(0, 0, 0, 0.6)
-        );
+        background: rgba(0, 0, 0, 0.4);
+      
+        backdrop-filter: blur(2px);
       }
 
       .slide-content {
         position: relative;
         z-index: 10;
         color: white;
-        padding: 0 1.5rem;
-        max-width: 800px;
+        padding: 0 2rem;
+        max-width: 900px;
+        animation: slideContentIn 0.8s ease-out;
 
         h1 {
-          font-size: 4rem;
+          font-size: 5rem;
           font-weight: 900;
           margin-bottom: 1.5rem;
-          letter-spacing: -0.02em;
-          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+          letter-spacing: -0.03em;
+          text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+          color: #fff;
+          -webkit-background-clip: text;
+          background-clip: text;
         }
 
         p {
           font-size: 1.5rem;
-          margin-bottom: 2.5rem;
-          opacity: 0.9;
+          margin-bottom: 3rem;
+          opacity: 0.95;
+          font-weight: 300;
+          letter-spacing: 0.5px;
         }
 
         .cta-button {
-          background-color: #6366f1;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           color: white;
-          padding: 1rem 2.5rem;
+          padding: 1.2rem 3rem;
           border-radius: 50px;
           font-size: 1.1rem;
           font-weight: 700;
-          border: none;
+          border: 2px solid rgba(255, 255, 255, 0.3);
           cursor: pointer;
-          transition: all 0.3s ease;
+          transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          text-decoration: none;
+          display: inline-block;
+          position: relative;
+          overflow: hidden;
+
+          &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+          }
 
           &:hover {
-            background-color: #4f46e5;
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.4);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.6);
+
+            &::before {
+              left: 100%;
+            }
+          }
+
+          &:active {
+            transform: translateY(-1px) scale(1.02);
           }
         }
       }
     }
 
-    // Points indicateurs
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 20;
+
+      &.prev {
+        left: 2rem;
+      }
+
+      &.next {
+        right: 2rem;
+      }
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: translateY(-50%) scale(1.1);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      }
+    }
+
     .slider-dots {
       position: absolute;
-      bottom: 30px;
+      bottom: 40px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
       gap: 12px;
       z-index: 20;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 12px 20px;
+      border-radius: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
 
       .dot {
-        width: 12px;
-        height: 12px;
+        width: 10px;
+        height: 10px;
         border-radius: 50%;
-        background: rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.4);
         border: none;
         cursor: pointer;
         padding: 0;
-        transition: all 0.3s;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
         &.active {
           background: #ffffff;
-          width: 30px; // Effet "pill" pour le point actif
+          width: 35px;
           border-radius: 10px;
+          box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+
+        &:hover:not(.active) {
+          background: rgba(255, 255, 255, 0.7);
+          transform: scale(1.2);
         }
       }
     }
   }
 
-  // --- 2. Sections Contenu ---
-  .categories-section,
-  .products-section {
-    max-width: 1200px;
-    margin: 0rem auto;
-    padding: 2rem;
+  // --- 2. Navigation par catégories ---
+  .categories-nav-section {
+    margin-top: 1rem;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    animation: slideDown 0.5s ease-out;
+    display: flex;
+    justify-content: center;
 
-    h2 {
-      font-size: 2rem;
-      font-weight: 800;
-      color: #0f172a;
-      margin-bottom: 2.5rem;
-      position: relative;
-
-      &::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: -10px;
-        width: 60px;
-        height: 4px;
-        background: #6366f1;
-        border-radius: 2px;
-      }
-    }
-  }
-
-  .categories-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 2rem;
-  }
-
-  // --- Section Produits de Catégorie ---
-  .category-products-section {
-    margin: 2rem auto;
-    padding: 2rem;
-    background-color: #F9FAFC;
-    animation: slideIn 0.3s ease-out;
-
-    .category-products-header {
+    .categories-nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
+      gap: 1.5rem;
+      overflow-x: auto;
+      scrollbar-width: none;
 
-      h2 {
-        margin-bottom: 0;
-
-        &::after {
-          display: none;
-        }
+      &::-webkit-scrollbar {
+        display: none;
       }
 
-      .close-category-btn {
-        padding: 0.5rem 1.5rem;
-        background-color: #ef4444;
-        color: white;
+      .category-nav-item {
+        flex-shrink: 0;
+        padding: 1rem 2rem;
+        margin: 0.5rem 0;
         border: none;
-        border-radius: 8px;
-        font-weight: 600;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 700;
+        color: #475569;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        white-space: nowrap;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 
-        &:hover {
-          background-color: #dc2626;
-          transform: translateY(-2px);
-          box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+          transition: left 0.6s;
+        }
+
+        &:hover:not(.active) {
+          transform: translateY(-4px) scale(1.05);
+          color: #667eea;
+
+          &::before {
+            left: 100%;
+          }
+        }
+
+        &.active {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          transform: translateY(-4px);
+
+          &::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+          }
+        }
+
+        &:active {
+          transform: translateY(-2px) scale(1.02);
         }
       }
-    }
-
-    .category-products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 2rem;
-    }
-
-    .no-products {
-      text-align: center;
-      color: #64748b;
-      font-size: 1.1rem;
-      padding: 3rem;
-      grid-column: 1 / -1;
     }
   }
 
-  // --- 3. Products Slider Section ---
+  // --- 3. Section Produits ---
   .products-section {
+    max-width: 1400px;
+    margin: 1rem auto;
+    padding: 3rem 2rem;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    border-radius: 30px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
     position: relative;
+    z-index: 1;
 
     .products-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 2rem;
-    }
+      margin-bottom: 3rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 2px solid rgba(102, 126, 234, 0.2);
 
-    .products-slider {
-      display: flex;
-      gap: 2rem;
-      overflow-x: auto;
-      overflow-y: hidden;
-      scroll-behavior: smooth;
-      padding-bottom: 1rem;
-      scrollbar-width: thin;
-      scrollbar-color: #6366f1 #e5e7eb;
+      h2 {
+        font-size: 2.5rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0;
+        position: relative;
+        letter-spacing: -0.02em;
 
-      // Custom scrollbar for webkit browsers
-      &::-webkit-scrollbar {
-        height: 8px;
-      }
-
-      &::-webkit-scrollbar-track {
-        background: #e5e7eb;
-        border-radius: 10px;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background: #6366f1;
-        border-radius: 10px;
-
-        &:hover {
-          background: #4f46e5;
+        &::before {
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: -12px;
+          width: 80px;
+          height: 5px;
+          background: linear-gradient(90deg, #667eea, #764ba2);
+          border-radius: 10px;
+          box-shadow: 0 2px 10px rgba(102, 126, 234, 0.4);
         }
       }
 
-      // Product cards in slider
-      > * {
-        flex: 0 0 320px;
-        min-width: 320px;
+      .products-count {
+        font-size: 1rem;
+        color: #667eea;
+        font-weight: 700;
+        padding: 0.75rem 1.5rem;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+        border-radius: 50px;
+        border: 2px solid rgba(102, 126, 234, 0.2);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.1);
       }
     }
-    .products-nav-buttons {
-      display: flex;
-      justify-content: center; 
-      align-items: center; 
-      gap: 1rem; 
-      width: 100%; 
-      margin: 2rem 0; 
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2.5rem;
+      animation: fadeInUp 0.6s ease-out;
+
+      .no-products {
+        grid-column: 1 / -1;
+        text-align: center;
+        color: #94a3b8;
+        font-size: 1.2rem;
+        padding: 4rem;
+        font-weight: 500;
+      }
     }
   }
+
 }
 
 /* --- Responsive Mobile Optimisé --- */
 @media (max-width: 768px) {
   .home {
     .hero-slider {
-      height: 450px; // Hauteur fixe pour garder un bon ratio sur smartphone
+      height: 500px;
 
       .slide {
-        // Renforcer l'overlay sur mobile pour la lisibilité
-        .slide-overlay {
-          background: rgba(0, 0, 0, 0.45);
-        }
-
         .slide-content {
-          padding: 0 1.25rem;
-          width: 100%;
+          padding: 0 1.5rem;
 
           h1 {
-            font-size: 2.25rem; // Réduction pour éviter que le titre ne prenne trop de place
-            line-height: 1.2;
+            font-size: 2.5rem;
+            line-height: 1.1;
             margin-bottom: 1rem;
-            // Animation fluide pour l'apparition du texte
-            animation: fadeInUp 0.5s ease forwards;
           }
 
           p {
             font-size: 1.1rem;
             margin-bottom: 2rem;
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2; // Limite à 2 lignes si le texte est trop long
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+            line-height: 1.5;
           }
 
           .cta-button {
-            display: inline-block; // Important car c'est un composant Link maintenant
-            padding: 0.8rem 2rem;
+            padding: 1rem 2.2rem;
             font-size: 1rem;
-            width: auto;
-            min-width: 160px;
           }
         }
       }
 
-      // On cache les flèches sur mobile (le swipe est préféré)
       .slider-btn {
         display: none;
       }
 
-      // Optimisation des dots pour le tactile
       .slider-dots {
-        bottom: 20px;
+        bottom: 25px;
+        padding: 10px 16px;
+
         .dot {
           width: 8px;
           height: 8px;
+
           &.active {
-            width: 24px;
+            width: 28px;
           }
         }
       }
     }
 
-    // Grilles de catégories en 2 colonnes
-    .categories-grid {
-      grid-template-columns: repeat(2, 1fr); // Force 2 colonnes
-      gap: 1rem;
-      padding: 0;
-    }
+    .categories-nav-section {
+      padding: 1.5rem 0;
+      top: 60px;
 
-    .categories-section,
-    .products-section {
-      margin: 3rem auto;
-      padding: 1rem;
+      .categories-nav-container {
+        padding: 0 1rem;
+        gap: 0.8rem;
 
-      h2 {
-        font-size: 1.5rem;
-        margin-bottom: 1.5rem;
+        .category-nav-item {
+          padding: 0.8rem 1.5rem;
+          font-size: 0.9rem;
+
+          &.active::after {
+            display: none;
+          }
+        }
       }
     }
 
-    // Products slider responsive
     .products-section {
+      margin: 2rem auto;
+      padding: 2rem 1rem;
+      border-radius: 20px;
+
       .products-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 1rem;
-        margin-bottom: 1.5rem;
+        margin-bottom: 2rem;
 
-        .products-nav-buttons {
-          align-self: flex-end;
+        h2 {
+          font-size: 1.8rem;
 
-          .products-nav-btn {
-            width: 40px;
-            height: 40px;
+          &::before {
+            width: 60px;
+            height: 4px;
           }
         }
-      }
 
-      .products-slider {
-        gap: 1rem;
-
-        > * {
-          flex: 0 0 280px;
-          min-width: 280px;
-        }
-      }
-    }
-
-    // Category products section responsive
-    .category-products-section {
-      margin: 1.5rem auto;
-      padding: 1.5rem 1rem;
-
-      .category-products-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-
-        .close-category-btn {
-          align-self: flex-end;
-          padding: 0.4rem 1.2rem;
+        .products-count {
           font-size: 0.9rem;
+          padding: 0.6rem 1.2rem;
         }
       }
 
-      .category-products-grid {
+      .products-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-      }
+        gap: 1.2rem;
 
-      .no-products {
-        font-size: 1rem;
-        padding: 2rem 1rem;
+        .no-products {
+          font-size: 1rem;
+          padding: 2.5rem 1rem;
+        }
       }
     }
   }
 }
 
-// Animation pour faire apparaître le texte proprement
+@media (max-width: 480px) {
+  .home {
+    .hero-slider {
+      height: 450px;
+
+      .slide {
+        .slide-content {
+          h1 {
+            font-size: 2rem;
+          }
+
+          p {
+            font-size: 1rem;
+          }
+
+          .cta-button {
+            padding: 0.9rem 2rem;
+            font-size: 0.95rem;
+          }
+        }
+      }
+    }
+
+    .categories-nav-section {
+      .categories-nav-container {
+        gap: 0.6rem;
+
+        .category-nav-item {
+          padding: 0.7rem 1.3rem;
+          font-size: 0.85rem;
+        }
+      }
+    }
+
+    .products-section {
+      padding: 1.5rem 0.8rem;
+
+      .products-header {
+        h2 {
+          font-size: 1.5rem;
+        }
+      }
+
+      .products-grid {
+        gap: 1rem;
+      }
+    }
+  }
+}
+
+// Animations
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -410,8 +520,27 @@
   }
 }
 
-// Animation pour la section des produits de catégorie
-@keyframes slideIn {
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideContentIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideDown {
   from {
     opacity: 0;
     transform: translateY(-20px);
@@ -419,5 +548,14 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
   }
 }

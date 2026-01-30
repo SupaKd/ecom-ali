@@ -1,30 +1,8 @@
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, ShoppingCart } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { formatPrice } from '../utils/formatPrice';
-import useCart from '../hooks/useCart';
 
-export default function ProductCard({ id, name, slug, price, image_url, brand_name, stock_quantity, onAddToCart }) {
-  const { addToCart } = useCart();
-
-  function handleAddToCart(e) {
-    e.preventDefault();
-
-    if (stock_quantity <= 0) {
-      return;
-    }
-
-    addToCart({
-      id,
-      name,
-      price,
-      image_url,
-      brand_name
-    });
-
-    if (onAddToCart) {
-      onAddToCart();
-    }
-  }
+export default function ProductCard({ name, slug, price, image_url, stock_quantity }) {
 
   return (
     <div className="product-card">
@@ -47,19 +25,11 @@ export default function ProductCard({ id, name, slug, price, image_url, brand_na
         <div className="product-card-info">
           <h3 className="product-card-name">{name}</h3>
           <p className="product-card-price">{formatPrice(price)}</p>
-          
+
           {stock_quantity <= 0 && (
             <p className="product-card-stock-out">Rupture de stock</p>
           )}
         </div>
-      
-        <button 
-          onClick={handleAddToCart}
-          disabled={stock_quantity <= 0}
-          className="product-card-button"
-        >
-          {stock_quantity > 0 ? <ShoppingCart size={18} /> : 'Indisponible'}
-        </button>
       </div>
     </div>
   );

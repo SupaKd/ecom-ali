@@ -6,7 +6,6 @@ import {
   fetchProducts,
   fetchProductsByCategory,
 } from "../services/productService";
-import CategoryCard from "../components/CategoryCard";
 import ProductCard from "../components/ProductCard";
 
 const heroSlides = [
@@ -46,9 +45,8 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [productsSliderElement, setProductsSliderElement] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [categoryProducts, setCategoryProducts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [displayedProducts, setDisplayedProducts] = useState([]);
 
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
@@ -60,34 +58,27 @@ export default function Home() {
     );
   }, []);
 
-  const scrollProducts = (direction) => {
-    if (productsSliderElement) {
-      const scrollAmount = 350;
-      productsSliderElement.scrollBy({
-        left: direction === "next" ? scrollAmount : -scrollAmount,
-        behavior: "smooth",
-      });
-    }
-  };
-
   const goToSlide = (index) => {
     setCurrentSlide(index);
   };
 
-  const handleCategoryClick = async (categoryId, categorySlug) => {
-    setSelectedCategory(categorySlug);
+  const handleCategoryClick = async (categoryId) => {
+    if (categoryId === "all") {
+      setSelectedCategory("all");
+      setDisplayedProducts(products);
+      return;
+    }
+
+    setSelectedCategory(categoryId);
 
     try {
-      const products = await fetchProductsByCategory(categoryId);
-      setCategoryProducts(products);
+      const categoryProducts = await fetchProductsByCategory(categoryId);
+      setDisplayedProducts(categoryProducts);
 
-      // Scroll vers la section des produits
       setTimeout(() => {
-        const categoryProductsSection = document.getElementById(
-          "category-products-section"
-        );
-        if (categoryProductsSection) {
-          categoryProductsSection.scrollIntoView({
+        const productsSection = document.getElementById("products-section");
+        if (productsSection) {
+          productsSection.scrollIntoView({
             behavior: "smooth",
             block: "start",
           });
@@ -95,6 +86,7 @@ export default function Home() {
       }, 100);
     } catch (error) {
       console.error("Erreur lors du chargement des produits:", error);
+      setDisplayedProducts([]);
     }
   };
 
@@ -115,7 +107,8 @@ export default function Home() {
         ]);
 
         setCategories(categoriesData);
-        setProducts(productsData.slice(0, 6));
+        setProducts(productsData);
+        setDisplayedProducts(productsData);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -185,64 +178,46 @@ export default function Home() {
           ))}
         </div>
       </section>
-      <section className="products-section">
-        <div className="products-header">
-          <h2>Produits Vedettes</h2>
-        </div>
-        <div className="products-slider" ref={setProductsSliderElement}>
-          {products.map((product) => (
-            <ProductCard key={product.id} {...product} onAddToCart={openCart} />
-          ))}
-        </div>
-      </section>
 
-      <section className="categories-section">
-        <h2>Nos Catégories</h2>
-        <div className="categories-grid">
+      <section className="categories-nav-section">
+        <div className="categories-nav-container">
+          <button
+            className={`category-nav-item ${selectedCategory === "all" ? "active" : ""}`}
+            onClick={() => handleCategoryClick("all")}
+          >
+            Tous les produits
+          </button>
           {categories.map((category) => (
-            <CategoryCard
+            <button
               key={category.id}
-              id={category.id}
-              name={category.name}
-              slug={category.slug}
-              image_url={category.image_url}
-              onClick={() => handleCategoryClick(category.id, category.slug)}
-            />
+              className={`category-nav-item ${selectedCategory === category.id ? "active" : ""}`}
+              onClick={() => handleCategoryClick(category.id)}
+            >
+              {category.name}
+            </button>
           ))}
         </div>
       </section>
 
-      {selectedCategory && (
-        <section className="category-products-section">
-          <div className="category-products-header">
-            <h2>
-              {categories.find((cat) => cat.slug === selectedCategory)?.name ||
-                "Produits"}
-            </h2>
-            <button
-              className="close-category-btn"
-              onClick={() => setSelectedCategory(null)}
-            >
-              Fermer
-            </button>
-          </div>
-          <div className="category-products-grid">
-            {categoryProducts.length > 0 ? (
-              categoryProducts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  {...product}
-                  onAddToCart={openCart}
-                />
-              ))
-            ) : (
-              <p className="no-products">
-                Aucun produit disponible dans cette catégorie
-              </p>
-            )}
-          </div>
-        </section>
-      )}
+      <section className="products-section" id="products-section">
+        <div className="products-header">
+          <h2>
+            {selectedCategory === "all"
+              ? "Tous nos produits"
+              : categories.find((cat) => cat.id === selectedCategory)?.name || "Produits"}
+          </h2>
+         
+        </div>
+        <div className="products-grid">
+          {displayedProducts.length > 0 ? (
+            displayedProducts.map((product) => (
+              <ProductCard key={product.id} {...product} onAddToCart={openCart} />
+            ))
+          ) : (
+            <p className="no-products">Aucun produit disponible</p>
+          )}
+        </div>
+      </section>
     </div>
   );
 }

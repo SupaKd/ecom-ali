@@ -320,19 +320,19 @@
     }
   
     .product-card-content {
-      padding: 1rem 0rem;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      gap: 1rem;
       flex: 1;
   
       .product-card-info {
         display: flex;
         flex-direction: column;
         gap: 0.25rem;
+        padding: 1rem;
         flex: 1;
+        background-color: #fff;
         min-width: 0;
   
         .product-card-name {

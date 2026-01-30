@@ -4,12 +4,31 @@ export const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState(() => {
-    const saved = localStorage.getItem('cart');
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem('cart');
+      if (!saved) return [];
+      
+      const parsed = JSON.parse(saved);
+      
+      // Validation stricte : doit être un tableau
+      if (!Array.isArray(parsed)) {
+        console.warn('Données du panier invalides, réinitialisation');
+        return [];
+      }
+      
+      return parsed;
+    } catch (error) {
+      console.error('Erreur lecture localStorage:', error);
+      return [];
+    }
   });
 
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cartItems));
+    try {
+      localStorage.setItem('cart', JSON.stringify(cartItems));
+    } catch (error) {
+      console.error('Erreur sauvegarde localStorage:', error);
+    }
   }, [cartItems]);
 
   function addToCart(product, quantity = 1) {
@@ -50,11 +69,24 @@ export function CartProvider({ children }) {
   }
 
   function getCartTotal() {
-    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    // Protection supplémentaire
+    if (!Array.isArray(cartItems)) return 0;
+    
+    return cartItems.reduce((total, item) => {
+      const price = Number(item.price) || 0;
+      const quantity = Number(item.quantity) || 0;
+      return total + (price * quantity);
+    }, 0);
   }
 
   function getCartCount() {
-    return cartItems.reduce((count, item) => count + item.quantity, 0);
+    // Protection supplémentaire
+    if (!Array.isArray(cartItems)) return 0;
+    
+    return cartItems.reduce((count, item) => {
+      const quantity = Number(item.quantity) || 0;
+      return count + quantity;
+    }, 0);
   }
 
   const value = {
