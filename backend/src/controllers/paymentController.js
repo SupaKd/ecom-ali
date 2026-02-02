@@ -25,26 +25,34 @@ export async function createCheckout(req, res, next) {
 export async function verifyPayment(req, res, next) {
   try {
     const { sessionId } = req.params;
-    
+
     const paymentInfo = await paymentService.verifyPayment(sessionId);
-    
+
     if (paymentInfo.payment_status === 'paid') {
       const order = await orderService.updatePaymentStatus(
         paymentInfo.order_number,
         paymentInfo.payment_id,
         'paid'
       );
-      
-      // ❌ PAS D'EMAILS ICI - géré par le webhook uniquement
-      
-      res.json({ 
-        success: true, 
-        order 
+
+      // ✅ Envoi des emails après paiement confirmé
+      try {
+        await emailService.sendOrderConfirmationToCustomer(order);
+        await emailService.sendNewOrderNotificationToAdmin(order);
+        console.log(`✅ Emails envoyés pour commande ${order.order_number}`);
+      } catch (emailError) {
+        console.error('⚠️ Erreur envoi emails:', emailError.message);
+        // On continue même si les emails échouent
+      }
+
+      res.json({
+        success: true,
+        order
       });
     } else {
-      res.json({ 
-        success: false, 
-        message: 'Paiement non confirmé' 
+      res.json({
+        success: false,
+        message: 'Paiement non confirmé'
       });
     }
   } catch (error) {

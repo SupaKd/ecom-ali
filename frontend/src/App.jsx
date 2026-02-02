@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 import { useState } from 'react';
-import { CartProvider } from './context/CartContext';
-import { AuthProvider } from './context/AuthContext';
+import { CartProvider } from './contexts/CartContext';
+import { AuthProvider } from './contexts/AuthContext';
 import { ToastProvider } from './contexts/ToastContext';
 import { ConfirmProvider } from './contexts/ConfirmContext';
 import Navbar from './components/Navbar';
